@@ -1,0 +1,27 @@
+version: '3.7'
+services:
+    api:
+        build: .
+        restart: always
+        environment:
+            NODE_ENV: production
+            PORT: 3000
+        networks:
+            - auth
+        ports:
+            - '3000:3000'
+    db:
+        image: mongo
+        restart: always
+        volumes: 
+            - /data/db:/data/db
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: admin
+            MONGO_INITDB_ROOT_PASSWORD: admin
+        networks:
+            - auth
+        ports:
+            - '27017:27017'
+networks:
+    auth:
+        driver: bridge
