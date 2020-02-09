@@ -1,23 +1,27 @@
 version: '3.7'
 services:
     api:
-        build: 
+        build:
             context: .
             dockerfile: dev.Dockerfile
         restart: always
         environment:
             NODE_ENV: development
             PORT: 3000
+            MONGO_URL: mongodb://admin:admin@db:27017/?authSource=admin
+            MONGO_DATABASE_NAME: auth
+            SECRET_JWT: secret
+            SALT: salt
         networks:
             - auth
-        volumes: 
+        volumes:
             - ./src:/usr/src/app/src
         ports:
             - '3000:3000'
     db:
         image: mongo
         restart: always
-        volumes: 
+        volumes:
             - /data/db:/data/db
         environment:
             MONGO_INITDB_ROOT_USERNAME: admin

@@ -1,14 +1,18 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 
-const app: express.Application = express();
-const port: number = Number(process.env.PORT); // default port to listen
+class App {
+    public app: express.Application;
 
-// define a route handler for the default home page
-app.get('/', (req, res) => {
-    res.send('Hello world3!');
-});
+    constructor() {
+        this.app = express();
+        this.config();
+    }
 
-// start the Express server
-app.listen(port, () => {
-    console.log(`server started at http://localhost:${port}`);
-});
+    private config() {
+        this.app.use(bodyParser.json());
+        this.app.use(bodyParser.urlencoded({ extended: true }));
+    }
+}
+
+export default new App().app;
